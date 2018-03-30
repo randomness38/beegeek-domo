@@ -1,13 +1,29 @@
+import { normalize } from 'normalizr'
+import * as schema from './schema'
 import * as types from './actionTypes'
-import * as api from "../api";
+import * as api from "../api"
+
+// export const doFetchAllPosts = () => (dispatch) => {
+//     return api.fetchAllPosts()
+//         .then((posts) => {
+//             // console.log('normalized response', schema.arrayOfPosts)
+//             dispatch({
+//             type: types.LOAD_ALL_POSTS,
+//             posts,
+//
+//     })})
+// }
 
 export const doFetchAllPosts = () => (dispatch) => {
     return api.fetchAllPosts()
-        .then((posts) => dispatch({
-            type: types.LOAD_ALL_POSTS,
-            posts,
-    }))
+        .then((posts) =>
+            dispatch({
+                type: types.LOAD_ALL_POSTS,
+                posts,
+
+            }))
 }
+
 
 export const doFetchPostsByCategory = (category) => (dispatch) => {
     return api.fetchPostsByCategory(category)

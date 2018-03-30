@@ -64,9 +64,7 @@ class NavBar extends Component {
             doEditComment,
             doDeleteComment,
         } = this.props
-        // doFetchComments(id)
-        // doFetchComment(commentId)
-        doDeleteComment(commentId)
+        doFetchAllPosts()
     }
 
     render() {
