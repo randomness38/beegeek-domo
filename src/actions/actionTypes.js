@@ -4,7 +4,7 @@ export const LOAD_CATEGORIES = 'LOAD_CATEGORIES';
 
 // Post
 export const LOAD_ALL_POSTS = 'LOAD_ALL_POSTS';
-export const LOAD_POSTS_BY_CATEGORIES = 'LOAD_POSTS_BY_CATEGORIES';
+export const LOAD_POSTS_BY_CATEGORY = 'LOAD_POSTS_BY_CATEGORY';
 // TODO: ADD_POST 와 LOAD_POST 의 reducer 구조 차이를 생각해 볼 것
 // TODO: 디스패치 할 때 data 커스텀해서 받는거랑 reducer 에서 커스텀하는 거랑은 또 무슨 차이일까
 export const LOAD_POST = 'LOAD_POST';

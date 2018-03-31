@@ -14,16 +14,29 @@ class NavBar extends Component {
             title: '위대한 작가가 되는 법2',
         }
 
-        const post = {
+        const editedpost = {
                 id: '8xf0y6ziyjabvozdd253nd',
                 timestamp: 1467166872634,
                 title: 'Udacity is the best place to learn React',
                 body: 'Everyone says so after all.',
                 author: 'thingtwo',
                 category: 'react',
-                voteScore: 6,
-                deleted: false,
-                commentCount: 2
+        }
+        const editTest = {
+            id: 'listIDs',
+            timestamp: 1467166872634,
+            title: '카테고리 변했니',
+            body: '리덕스로 변했냐고오',
+            author: '22멋져지길',
+            category: 'redux',
+        }
+        const testPost = {
+            id: 'listIDs 확인',
+            timestamp: 1467166872634,
+            title: '33잘됐으면 좋겠어 ',
+            body: '너의 하루가',
+            author: '멋져지길',
+            category: 'udacity',
         }
         const comment = {
             id: 'KKK',
@@ -64,7 +77,11 @@ class NavBar extends Component {
             doEditComment,
             doDeleteComment,
         } = this.props
-        doFetchAllPosts()
+        // doFetchAllPosts()
+        doFetchPostsByCategory(category)
+        // doAddPost(testPost)
+        // doEditPost('testEdit',editTest)
+        doDeletePost('testEdit')
     }
 
     render() {
