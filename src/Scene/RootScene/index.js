@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import * as actions from '../../../actions';
-import NavBar from '../../NavBar'
+import * as actions from '../../actions/index';
 
 class RootScene extends Component {
+
     render() {
         return (
             <div>
-                <NavBar />
+                RootScene
             </div>
         )
     }
 }
 
-const mapStateToProps = ({state}) => {
+const mapStateToProps = ({ categoryIds }) => {
     return {
-        state
+        categories : categoryIds
     }
 }
 
@@ -23,7 +24,11 @@ const mapStateToProps = ({state}) => {
 //     dispatcherName: () => dispatch(dispatcherName()),
 // })
 
-export default connect(
+
+
+RootScene = withRouter(connect(
     mapStateToProps,
-    {actions}
-)(RootScene)
+    actions
+)(RootScene));
+
+export default RootScene;

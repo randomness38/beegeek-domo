@@ -8,7 +8,7 @@ import { combineReducers } from 'redux';
 
  */
 
-const createList = (filterName) => {
+const createPostListIds = (filterName) => {
     // const handleToggle = (state, action) => {
     //     const { result: toggledId, entities } = action.response;
     //     const { completed } = entities.todos[toggledId];
@@ -43,6 +43,7 @@ const createList = (filterName) => {
 
     const ids = (state = [], action) => {
         switch (action.type) {
+
             case 'LOAD_ALL_POSTS':
                 return filterName === 'all' ?
                     action.response.result :
@@ -112,7 +113,7 @@ const createList = (filterName) => {
     });
 };
 
-export default createList;
+export default createPostListIds;
 
 export const getIds = (state) => state.ids;
 // export const getIsFetching = (state) => state.isFetching;

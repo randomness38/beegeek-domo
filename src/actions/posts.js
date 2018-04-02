@@ -1,14 +1,14 @@
 import { normalize } from 'normalizr'
 import * as schema from './schema'
 import * as types from './actionTypes'
-import * as api from "../api"
+import * as api from "../utils/api"
 
 // TODO: 이제 더이상 doFetchAllPosts 가 아니에여~ 걍 싹 fetch 해서 Ids 로 관리할거임
 // TODO: 이제 action data 로 filter 를 받음 result.posts 커스텀할 때 Ids Reducer 에서 사용 !
 export const doFetchAllPosts = () => (dispatch) => {
     return api.fetchAllPosts()
         .then((posts) => {
-            console.log('normalized response', normalize(posts, schema.arrayOfPosts))
+            // console.log('normalized response', normalize(posts, schema.arrayOfPosts))
             dispatch({
             type: types.LOAD_ALL_POSTS,
             response : normalize(posts, schema.arrayOfPosts),

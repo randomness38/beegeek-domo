@@ -1,5 +1,8 @@
+import * as postActions from '../actions/posts'
 const byPostId = (state = {}, action) => {
     // const { response } = action
+    // if (action.type === postActions) {
+    // TODO: response.entities.posts 가 없으면 이 reducer 는 호출되지 않음 !!
     if (action.response) {
         // action response : api + actionCreator 가 return 하는 res.data
         // Action Type 마다 다른 Action Creator 가 호출되고 반환하는 res.data 도 다르지!

@@ -6,9 +6,9 @@ import reducer from './reducers'
 const configureStore = () => {
     const middlewares = [thunk];
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    if (process.env.NODE_ENV !== 'production') {
-        middlewares.push(logger);
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //     middlewares.push(logger);
+    // }
 
     const store = createStore(
         reducer,
