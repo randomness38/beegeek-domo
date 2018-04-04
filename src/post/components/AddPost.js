@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
+import uuid from 'uuid'
 import * as actions from '../../actions/index';
+import PostForm from "../../utils/form/PostForm";
+import {
+  generateId,
+  unixTimestamp
+} from '../../utils/form/formTools'
 
 class AddPost extends Component {
 
@@ -10,20 +16,40 @@ class AddPost extends Component {
 
     }
 
+    handleSubmit = (values, dispatch, props) => {
+      const { match: { params: {idPost } } } = props;
+      const { doAddPost, doEditPost } = this.props;
+      const objectData = {
+          id: values.id || generateId(),
+          timestamp: values.timestamp || unixTimestamp(),
+          title: values.title,
+          body: values.body,
+          author: values.author,
+          category: values.category
+      };
+
+      return (
+            !idPost
+              ? doAddPost(objectData)
+              : doEditPost(objectData)
+      )
+    };
+
     render() {
         return (
             <div>
+                <PostForm onSubmit={this.handleSubmit} />
             </div>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {params} = ownProps.match
+    const {params} = ownProps.match;
     return {
         state
     }
-}
+};
 
 // const mapDispatchToProps = dispatch => ({
 //     dispatcherName: () => dispatch(dispatcherName()),

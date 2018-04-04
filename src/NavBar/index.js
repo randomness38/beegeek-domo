@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import * as actions from "../actions";
 import FilterNaveLink from "./FilterNaveLink";
 import uuid from 'uuid'
+import {category} from "../actions/schema";
 
 class NavBar extends Component {
 
@@ -24,11 +25,12 @@ class NavBar extends Component {
                     </Link>
                 </li>
 
-                {categories.map(categoryName => {
+
+                {categories.concat('all').map(category => {
                     return (
-                        <li key={categoryName}>
-                            <FilterNaveLink filter={categoryName}>
-                                {categoryName}
+                        <li key={category.id || 'all'}>
+                            <FilterNaveLink filter={category.path || 'all'}>
+                                {category.name || 'all'}
                             </FilterNaveLink>
                         </li>
 
@@ -36,19 +38,23 @@ class NavBar extends Component {
 
                 })}
                 <li>
-                    <Link to={`/add/post`}
+                    <Link to='/add/post'
                     >
                         New
                     </Link>
                 </li>
+
+
+
             </div>
         )
     }
 }
 
-const mapStateToProps = ({ categoryIds }) => {
+const mapStateToProps = ( state ) => {
     return {
-        categories : categoryIds.concat('all')
+        // categories : categoryIds.concat('all')
+        categories : state.categoryIds.map(id => state.byCategoryId[id])
         // posts : getVisiblePosts(state, 'all'),
         // 오류나면 여기 id 진짜ㅣ있는지 확인해봐
         // comments: getCommentsByParentId(state, '8xf0y6ziyjabvozdd253nd')

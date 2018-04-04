@@ -30,6 +30,5 @@ const commentIds = (state = [], action) => {
 export default commentIds;
 
 // 여기서 getIds 의 의미는
-// action.type 에  따라 return 되는 Ids (state) 를 가리킴
-// action creator 가 무엇이냐에 따라 getIds 는 자동으로 변경 됨
+// action type에  따라 return 되는 Ids (state)
 export const getIds = (state) => state.commentIds

@@ -2,12 +2,13 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as actions from '../../actions/index';
+import AddPost from "../../post/components/AddPost";
 
 class AddPostScene extends Component {
     render() {
         return (
             <div>
-                AddPostScene
+                <AddPost/>
             </div>
         )
     }
@@ -27,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 
 AddPostScene = withRouter(connect(
     mapStateToProps,
-    {actions}
+    actions
 )(AddPostScene));
 
 export default AddPostScene;

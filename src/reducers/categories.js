@@ -16,10 +16,7 @@ export const byCategoryId = (state = {}, action) => {
 export const categoryIds = (state = [], action) => {
     switch (action.type) {
         case types.LOAD_CATEGORIES :
-            return [
-                ...state,
-                ...action.response.result
-            ]
+            return [...action.response.result]
         default :
             return state
     }

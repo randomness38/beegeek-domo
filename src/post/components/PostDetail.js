@@ -3,7 +3,7 @@ import {withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as actions from '../../actions/index';
 import { ItemControls } from "../../utils/controls/index";
-import { getComments } from "../../reducers/index";
+import getComments  from "../../reducers/index";
 import CommentList from "../../comment/components/CommentList";
 
 class PostDetail extends Component {
