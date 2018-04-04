@@ -8,7 +8,7 @@ const byCommentId = (state = {}, action) => {
         }
     }
     return state
-}
+};
 
 export default byCommentId
 export const getComment = (state, id) => state[id];

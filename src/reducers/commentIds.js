@@ -31,4 +31,4 @@ export default commentIds;
 
 // 여기서 getIds 의 의미는
 // action type에  따라 return 되는 Ids (state)
-export const getIds = (state) => state.commentIds
+export const getIds = (state) => state;

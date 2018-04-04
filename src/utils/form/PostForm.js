@@ -74,7 +74,7 @@ class PostForm extends Component {
 
           <div>
             <RaisedButton primary={true} type="submit" label="Submit" disabled={pristine || submitting} style={style} />
-            <RaisedButton label="Primary"  disabled={pristine || submitting} onClick={reset} style={style} />
+            <RaisedButton label="Reset"  disabled={pristine || submitting} onClick={reset} style={style} />
           </div>
         </form>
       );

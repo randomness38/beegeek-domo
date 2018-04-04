@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
-import uuid from 'uuid'
 import * as actions from '../../actions/index';
 import PostForm from "../../utils/form/PostForm";
-import {
-  generateId,
-  unixTimestamp
-} from '../../utils/form/formTools'
+import { generateId, unixTimestamp } from '../../utils/form/formTools'
+
 
 class AddPost extends Component {
 
@@ -17,8 +14,7 @@ class AddPost extends Component {
     }
 
     handleSubmit = (values, dispatch, props) => {
-      const { match: { params: {idPost } } } = props;
-      const { doAddPost, doEditPost } = this.props;
+      const { doAddPost, doEditPost, idPost, reset } = this.props;
       const objectData = {
           id: values.id || generateId(),
           timestamp: values.timestamp || unixTimestamp(),
@@ -30,7 +26,9 @@ class AddPost extends Component {
 
       return (
             !idPost
-              ? doAddPost(objectData)
+              ? doAddPost(objectData).then( ({ p }) => {
+                this.props.history.push(`/${objectData.category}/${objectData.id}`);
+              })
               : doEditPost(objectData)
       )
     };
@@ -57,8 +55,8 @@ const mapStateToProps = (state, ownProps) => {
 
 
 AddPost = withRouter(connect(
-    mapStateToProps,
-    actions
+  mapStateToProps,
+  actions
 )(AddPost));
 
 export default AddPost;

@@ -13,40 +13,39 @@ class PostList extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.categoryName !== prevProps.categoryName) {
+      const { categoryName, posts} = this.props;
+        if (categoryName !== prevProps.categoryName
+        || posts !== prevProps.posts) {
             this.fetchData();
         }
     }
 
     fetchData() {
-        const { categoryName, doFetchAllPosts, doFetchPostsByCategory }  = this.props
-        categoryName === undefined ? doFetchAllPosts() : doFetchPostsByCategory(categoryName)
+        const { categoryName, doFetchAllPosts, doFetchPostsByCategory }  = this.props;
+        categoryName === 'all' ? doFetchAllPosts() : doFetchPostsByCategory(categoryName)
     }
+
     render() {
-        const { posts,categoryName, doVotePost, doDeletePost } = this.props
+        const { posts,categoryName, doVotePost, doDeletePost } = this.props;
         return (
 
             <div>
             <p>{categoryName}</p>
                 {posts.map( post =>
-
                     <PostItem
                         key={post.id}
                         post={post}
                         onVote={doVotePost}
                         onRemove={doDeletePost}
                     />
-
-
                 )}
-
             </div>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { categoryName } = ownProps.match.params || 'all'
+    const { categoryName } = ownProps.match.params;
     return {
         //  getVisiblePosts 에서 action.filter 가 'all' 이면 어떻게 하기로 했지
         // 'all' === undefined 인 상태야 지금
