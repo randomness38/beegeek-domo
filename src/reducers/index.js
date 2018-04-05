@@ -52,3 +52,5 @@ export const getComments = (state) => {
     const ids = state.commentIds;
     return ids.map(id => state.byCommentId[id]);
 };
+
+export const load = post => ({ type:'LOAD_POST', post });

@@ -52,7 +52,7 @@ class PostDetail extends Component {
 
                             <div>
                               <button>
-                                <Link to={`/edit/post/:${idPost}`}>
+                                <Link to={`/edit/post/${idPost}`}>
                                   Edit
                                 </Link>
                               </button>

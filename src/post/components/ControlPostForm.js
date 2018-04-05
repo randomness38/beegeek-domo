@@ -6,15 +6,10 @@ import PostForm from "../../utils/form/PostForm";
 import { generateId, unixTimestamp } from '../../utils/form/formTools'
 
 
-class AddPost extends Component {
+class ControlPostForm extends Component {
 
-    componentDidMount() {
-        this.props.doFetchCategories();
-
-    }
-
-    handleSubmit = (values, dispatch, props) => {
-      const { doAddPost, doEditPost, idPost, reset } = this.props;
+    handleSubmit = (values) => {
+      const { doAddPost, doEditPost, idPost } = this.props;
       const objectData = {
           id: values.id || generateId(),
           timestamp: values.timestamp || unixTimestamp(),
@@ -29,23 +24,25 @@ class AddPost extends Component {
               ? doAddPost(objectData).then( ({ p }) => {
                 this.props.history.push(`/${objectData.category}/${objectData.id}`);
               })
-              : doEditPost(objectData)
+              : doEditPost(idPost, objectData).then( ({ p }) => {
+                this.props.history.push(`/${objectData.category}/${objectData.id}`);
+              })
       )
     };
 
     render() {
         return (
             <div>
-                <PostForm onSubmit={this.handleSubmit} />
+                <PostForm onSubmit={this.handleSubmit}/>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {params} = ownProps.match;
+    const { idPost } = ownProps.match.params;
     return {
-        state
+      idPost: idPost
     }
 };
 
@@ -54,9 +51,8 @@ const mapStateToProps = (state, ownProps) => {
 // })
 
 
-AddPost = withRouter(connect(
+export default withRouter(connect(
   mapStateToProps,
   actions
-)(AddPost));
+)(ControlPostForm));
 
-export default AddPost;

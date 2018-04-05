@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as actions from '../../actions/index';
-import AddPost from "../../post/components/AddPost";
+import ControlPostForm from "../../post/components/ControlPostForm";
 
 class AddPostScene extends Component {
     render() {
         return (
             <div>
-                <AddPost/>
+                <ControlPostForm/>
             </div>
         )
     }

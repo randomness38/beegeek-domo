@@ -2,33 +2,33 @@ import React ,{ Component } from 'react'
 import {connect} from "react-redux";
 import {withRouter} from 'react-router';
 import { Field, reduxForm } from 'redux-form'
-import * as actions from '../../actions'
+import { doGetPost, doFetchCategories } from '../../actions'
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import { validate } from './validate';
-
-import {getVisiblePosts} from "../../reducers/index";
 import {renderTextField, renderSelectField } from "./TextInputField";
 
 const style = {
   margin: 12,
 };
 
-
 class PostForm extends Component {
 
   componentDidMount () {
-    const {doFetchAllPosts, doFetchCategories, doGetPost, idPost} = this.props;
-    idPost && doGetPost(idPost);
-    // doFetchAllPosts();
-    doFetchCategories();
+    const {getCategories, getPostById, idPost} = this.props;
+    getPostById(idPost);
+    getCategories();
   }
 
+  // componentDidUpdate(prevProps) {
+  //   const { idPost } = this.props;
+  //   if (idPost !== prevProps.idPost ) {
+  //     idPost(idPost);
+  //   }
+  // }
 
     render() {
-      const { post, currentPost, categories, handleSubmit, pristine, reset, submitting } = this.props;
-      // console.log('categories',categories);
-      // console.log('post',post);
+      const { categories, handleSubmit, pristine, reset, submitting } = this.props;
       return (
         <form onSubmit={handleSubmit}>
           <div>
@@ -36,7 +36,6 @@ class PostForm extends Component {
               name="title"
               component={renderTextField}
               label="title"
-              // initialValue={currentPost && currentPost.title}
             />
           </div>
           <div>
@@ -44,7 +43,6 @@ class PostForm extends Component {
               name="author"
               component={renderTextField}
               label="author"
-              // initialValue={currentPost && currentPost.author}
             />
           </div>
           <div>
@@ -54,7 +52,6 @@ class PostForm extends Component {
               label="body"
               multiLine={true}
               rows={2}
-              // initialValue={currentPost && currentPost.body}
             />
           </div>
           <div>
@@ -62,9 +59,7 @@ class PostForm extends Component {
               name="category"
               component={renderSelectField}
               label="category"
-              // initialValue={currentPost && currentPost.category}
             >
-              {/* value 와 primaryText 차이가 뭐징 */}
               {categories.map(category => {
                 return <MenuItem key={category} value={category} primaryText={category} />
               })}
@@ -85,34 +80,25 @@ const mapStateToProps = (state, ownProps) => {
     const { idPost } = ownProps.match.params;
     return {
       idPost: idPost,
-      currentPost: state.byPostId,
       categories: state.categoryIds,
+      initialValues: state.byPostId[idPost],
     }
 };
 
-// export default withRouter(
-//   connect(
-//     mapStateToProps,
-//     actions
-//   )(reduxForm({
-//       form: 'postForm',
-//       // validate,
-//     })(PostForm)
-//   )
-// )
-// export default reduxForm({
-//   form: 'deckForm',
-//   // validate,
-// })(PostForm);
+const mapDispatchToProps = dispatch => ({
+  getPostById: postId => dispatch(doGetPost(postId)),
+  getCategories: () => dispatch(doFetchCategories()),
+});
 
 
 export default withRouter(
   connect(
     mapStateToProps,
-    actions
+    mapDispatchToProps
   )(reduxForm({
       form: 'postForm',
       validate,
+      enableReinitialize: true,
     })(PostForm)
   )
 )

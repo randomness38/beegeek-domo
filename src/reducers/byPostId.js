@@ -1,4 +1,4 @@
-import * as postActions from '../actions/posts'
+
 const byPostId = (state = {}, action) => {
     // const { response } = action
     // if (action.type === postActions) {
@@ -16,7 +16,9 @@ const byPostId = (state = {}, action) => {
         }
     }
     return state
-}
+};
 
+// 이게 무슨 의미가 있냐?
+export const load = post => ({ type:'LOAD_POST', post });
 export default byPostId
 export const getPost = (state, id) => state[id];
