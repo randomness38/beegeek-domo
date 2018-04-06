@@ -3,15 +3,13 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 import * as actions from '../../actions/index';
 import PostForm from "../../utils/form/PostForm";
-import {generateId, unixTimestamp} from "../../utils/form/formTools";
-
+import { generateId, unixTimestamp } from '../../utils/form/formTools'
 
 
 class ControlPostForm extends Component {
 
-  handleSubmit = (values, dispatch, props) => {
-    const { match: { params: { idPost } } } = props;
-    console.log('idPost', idPost);
+  handleSubmit = (values) => {
+    const { doAddPost, doEditPost, idPost } = this.props;
     const objectData = {
       id: values.id || generateId(),
       timestamp: values.timestamp || unixTimestamp(),
@@ -23,30 +21,32 @@ class ControlPostForm extends Component {
 
     return (
       !idPost
-        ? this.props.doAddPost(objectData)
-          .then( ({ p }) => {
-            this.props.history.push(`/${objectData.category}/${objectData.id}`);
-          })
-        : this.props.doEditPost(idPost, objectData)
-          .then( ({ p }) => {
-            this.props.history.push(`/${objectData.category}/${objectData.id}`);
-          })
+        ? doAddPost(objectData).then( ({ p }) => {
+          this.props.history.push(`/${objectData.category}/${objectData.id}`);
+        })
+        : doEditPost(idPost, objectData).then( ({ p }) => {
+          this.props.history.push(`/${objectData.category}/${objectData.id}`);
+        })
     )
   };
-    render() {
-        return (
-            <div>
-                <PostForm onSubmit={this.handleSubmit} />
-            </div>
-        )
-    }
+
+  render() {
+    return (
+      <div>
+        <PostForm
+          idPost={this.props.idPost}
+          onSubmit={this.handleSubmit}
+        />
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { idPost } = ownProps.match.params;
-    return {
-      idPost: idPost
-    }
+  const { idPost } = ownProps.match.params;
+  return {
+    idPost: idPost
+  }
 };
 
 // const mapDispatchToProps = dispatch => ({

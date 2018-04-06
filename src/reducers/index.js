@@ -14,6 +14,26 @@ const postIdsByFilter = combineReducers({
     udacity: createPostListIds('udacity'),
 });
 
+const IsEditing = (state = { open: false }, action) => {
+  switch(action.type) {
+    case types.OPEN_EDITING:
+      return {
+        ...state,
+        open: true
+      };
+
+    case types.CLOSE_EDITING:
+      return {
+        ...state,
+        open: false
+      };
+
+    default:
+      return state
+  }
+}
+
+
 const reducers = {
     byPostId,
     postIdsByFilter,
@@ -21,16 +41,11 @@ const reducers = {
     categoryIds,
     byCommentId,
     commentIds,
+    IsEditing,
     form: formReducer.plugin({
-      postForm: (state, action) => {
+      commentForm: (state, action) => {
         switch(action.type) {
-          case types.ADD_POST:
-            return undefined;
           case types.ADD_COMMENT:
-            return undefined;
-          case types.EDIT_POST:
-            return undefined;
-          case types.EDIT_COMMENT:
             return undefined;
           default:
             return state;

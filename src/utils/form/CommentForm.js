@@ -4,27 +4,44 @@ import {withRouter} from 'react-router';
 import { Field, reduxForm } from 'redux-form'
 import * as actions from '../../actions'
 import RaisedButton from 'material-ui/RaisedButton';
-import MenuItem from 'material-ui/MenuItem';
 import { validate } from './validate';
 import {renderTextField } from "./TextInputField";
+import {generateId, unixTimestamp} from "./formTools";
 
 const style = {
   margin: 12,
+};
+
+const onSubmit = (values, dispatch, props) => {
+  const { match: { params: { idPost } } } = props;
+  const objectData = {
+    id: values.id || generateId(),
+    timestamp: values.timestamp || unixTimestamp(),
+    parentId: idPost,
+    author: values.author,
+    body: values.body,
+  };
+
+  return (
+    !values.id
+      ? dispatch(actions.doAddComment(objectData))
+      : dispatch(actions.doEditComment(values.id, objectData))
+    // action creator 만들어보자고
+        // .then(()=> this.props.onEditing)
+  )
 };
 
 
 class CommentForm extends Component {
 
   // componentDidMount () {
-  //   const {doFetchAllPosts, doFetchCategories, doGetPost, idPost} = this.props;
-  //   idPost && doGetPost(idPost);
-  //   // doFetchAllPosts();
-  //   doFetchCategories();
+  //   const { doFetchComment, commentId } = this.props;
+  //   commentId && doFetchComment(commentId);
   // }
 
 
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit, submitting, pristine, reset,onEditing } = this.props;
     // console.log('categories',categories);
     // console.log('post',post);
     return (
@@ -60,6 +77,8 @@ const mapStateToProps = (state, ownProps) => {
   const { idPost } = ownProps.match.params;
   return {
     idPost: idPost,
+    initialValues: state.byCommentId[ownProps.commentId],
+
   }
 };
 
@@ -69,8 +88,10 @@ export default withRouter(
     mapStateToProps,
     actions
   )(reduxForm({
-      form: 'postForm',
+      form: 'commentForm',
       validate,
+      onSubmit,
+      enableReinitialize: true,
     })(CommentForm)
   )
 )

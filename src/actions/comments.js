@@ -55,3 +55,20 @@ export const doDeleteComment = (id) => (dispatch) => {
             response: normalize(comment, schema.comment)
         }))
 }
+
+
+export const openEditing = () => {
+  return dispatch => {
+    dispatch({ type: types.OPEN_EDITING })
+  }
+}
+
+/**
+ * @description Dispatch an action to close dialog
+ * @returns {object} action - The action type
+ */
+export const closeEditing  = () => {
+  return dispatch => {
+    dispatch({ type: types.CLOSE_EDITING })
+  }
+}

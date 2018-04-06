@@ -14,8 +14,7 @@ class PostList extends Component {
 
     componentDidUpdate(prevProps) {
       const { categoryName, posts} = this.props;
-        if (categoryName !== prevProps.categoryName
-        || posts !== prevProps.posts) {
+        if (categoryName !== prevProps.categoryName){
             this.fetchData();
         }
     }

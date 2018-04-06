@@ -12,14 +12,6 @@ import {generateId, unixTimestamp} from "../../utils/form/formTools";
 
 class CommentList extends Component {
 
-  state = {
-    isEditing : 'false,'
-  };
-
-  onEditing = () => {
-    this.setState({ isEditing: true })
-  }
-
   componentDidMount() {
       const { doFetchComments, idPost} = this.props;
       doFetchComments(idPost)
@@ -27,46 +19,46 @@ class CommentList extends Component {
   }
 
   //Form submit method
-  handleSubmit = (values) => {
-    const { doAddComment, doEditComment, idPost  } = this.props;
-    const objectData = {
-      id: values.id || generateId(),
-      timestamp: values.timestamp || unixTimestamp(),
-      parentId: idPost,
-      author: values.author,
-      body: values.body,
-    };
-
-    return (
-      !values.id
-        ? doAddComment(objectData)
-        : doEditComment(objectData)
-    )
-  };
+  // handleSubmit = (values) => {
+  //   const { doAddComment, doEditComment, idPost  } = this.props;
+  //   const objectData = {
+  //     id: values.id || generateId(),
+  //     timestamp: values.timestamp || unixTimestamp(),
+  //     parentId: idPost,
+  //     author: values.author,
+  //     body: values.body,
+  //   };
+  //
+  //   return (
+  //     !values.id
+  //       ? doAddComment(objectData)
+  //       : doEditComment(objectData)
+  //   )
+  // };
 
     render() {
-        const { comments, doAddComment, doVoteComment, doDeleteComment, doEditComment } = this.props;
-        const { isEditing } = this.state;
+        const { comments, doVoteComment, doDeleteComment } = this.props;
 
         return (
             <div>
               <div>
                 <h3>Create Comment!</h3>
-                <CommentForm onSubmit={this.handleSubmit} />
+                <CommentForm />
               </div>
                 { comments &&
                     (
                         comments.map( comment => {
-                            return <CommentItem
+                            return (<CommentItem
                                 key={comment.id}
                                 comment={comment}
                                 onVote={doVoteComment}
                                 onRemove={doDeleteComment}
-                                onEditing={this.onEditing}
-                            />
+                            />);
                         })
+
                     )
                 }
+
             </div>
         )
     }

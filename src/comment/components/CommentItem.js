@@ -1,8 +1,27 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {connect} from "react-redux";
+
 import {ItemControls} from "../../utils/controls/index";
 import {dateTimeFormat, fromNow} from "../../utils/setDate/imdex";
+import CommentForm from "../../utils/form/CommentForm";
+export class CommentItem extends Component {
 
-export const CommentItem = ({ comment, onRemove, onVote }) => {
+  state = {
+    isEditing : 'false,'
+  };
+
+  onEditing = () => {
+    this.setState({ isEditing: !this.state.isEditing })
+  };
+
+  componentDidMount() {
+    this.props.closeEditing === true && this.onEditing()
+  }
+
+  render () {
+    const {comment, onRemove, onVote} = this.props;
+    const { isEditing } = this.state;
+
     return (
         <div>
           <h3>{comment.body}</h3>
@@ -17,6 +36,23 @@ export const CommentItem = ({ comment, onRemove, onVote }) => {
                     onVote={onVote}
                 />
             </div>
+          <button onClick={this.onEditing}>Edit Comment</button>
+          { isEditing === true && (
+            <CommentForm
+              commentId={comment.id}
+              onEditing={this.onEditing}
+            />
+          )}
         </div>
     )
+  }
 }
+const mapStateToProps = (state) => {
+  return {
+    closeEditing: state.form.commentForm.submitSucceeded,
+  }
+}
+
+export default connect(
+  mapStateToProps, null
+)(CommentItem);
