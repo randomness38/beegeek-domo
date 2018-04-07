@@ -1,20 +1,27 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import CommentForm, {onSubmit} from "./CommentForm";
+import { reduxForm } from 'redux-form'
+import CommentForm from "./CommentForm";
 import { validate } from './validate';
+import commentSubmit from "./commentSubmit";
+import RemoteCommentSubmit from "./RemoteCommentSubmit";
 
 
 const CreateCommentForm = ({...props}) => {
   return (
-    <CommentForm
-      mode='create'
-      {...props}
-    />
+    <div>
+      <CommentForm
+        mode='create'
+        {...props}
+      />
+      <RemoteCommentSubmit mode='create' />
+    </div>
+
+
   )
 }
 
 export default reduxForm({
   form: 'createCommentForm',
-  // validate,
-  // onSubmit
+  validate,
+  onSubmit: commentSubmit
 })(CreateCommentForm);
