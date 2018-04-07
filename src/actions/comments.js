@@ -57,18 +57,18 @@ export const doDeleteComment = (id) => (dispatch) => {
 }
 
 
-export const openEditing = () => {
-  return dispatch => {
-    dispatch({ type: types.OPEN_EDITING })
-  }
-}
+export const doOpenEditing = (id) => (dispatch) => {
+  return dispatch({
+      type: types.OPEN_EDITING,
+      id,
+  })
 
-/**
- * @description Dispatch an action to close dialog
- * @returns {object} action - The action type
- */
-export const closeEditing  = () => {
-  return dispatch => {
-    dispatch({ type: types.CLOSE_EDITING })
-  }
-}
+};
+
+export const doCloseEditing = (id) => (dispatch) => {
+  return dispatch({
+    type: types.CLOSE_EDITING,
+    id,
+  })
+
+};

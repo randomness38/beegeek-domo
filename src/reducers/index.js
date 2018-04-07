@@ -14,18 +14,20 @@ const postIdsByFilter = combineReducers({
     udacity: createPostListIds('udacity'),
 });
 
-const IsEditing = (state = { open: false }, action) => {
+const IsEditing = (state = { open: false, id:"" }, action) => {
   switch(action.type) {
     case types.OPEN_EDITING:
       return {
-        ...state,
-        open: true
+        // ...state,
+        open: true,
+        id: action.id
       };
 
     case types.CLOSE_EDITING:
       return {
-        ...state,
-        open: false
+        // ...state,
+        open: false,
+        id: action.id
       };
 
     default:

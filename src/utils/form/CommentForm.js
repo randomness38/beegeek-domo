@@ -12,8 +12,9 @@ const style = {
   margin: 12,
 };
 
-const onSubmit = (values, dispatch, props) => {
+export const onSubmit = (values, dispatch, props) => {
   const { match: { params: { idPost } } } = props;
+  console.log('idPost',idPost);
   const objectData = {
     id: values.id || generateId(),
     timestamp: values.timestamp || unixTimestamp(),
@@ -26,32 +27,26 @@ const onSubmit = (values, dispatch, props) => {
     !values.id
       ? dispatch(actions.doAddComment(objectData))
       : dispatch(actions.doEditComment(values.id, objectData))
-    // action creator 만들어보자고
-        // .then(()=> this.props.onEditing)
+        .then(()=> dispatch(actions.doCloseEditing(values.id)))
   )
 };
 
 
 class CommentForm extends Component {
 
-  // componentDidMount () {
-  //   const { doFetchComment, commentId } = this.props;
-  //   commentId && doFetchComment(commentId);
-  // }
-
-
   render() {
-    const { handleSubmit, submitting, pristine, reset,onEditing } = this.props;
-    // console.log('categories',categories);
-    // console.log('post',post);
+    const { handleSubmit, submitting, mode, pristine, reset } = this.props;
+    console.log('mode',mode);
+
     return (
+
       <form onSubmit={handleSubmit}>
+        <h3>{mode === 'edit' ? 'Edit Comment' : 'Create Comment'}</h3>
         <div>
           <Field
             name="author"
             component={renderTextField}
             label="author"
-            // initialValue={currentPost && currentPost.author}
           />
         </div>
         <div>
@@ -61,7 +56,6 @@ class CommentForm extends Component {
             label="body"
             multiLine={true}
             rows={2}
-            // initialValue={currentPost && currentPost.body}
           />
         </div>
         <div>
@@ -73,15 +67,14 @@ class CommentForm extends Component {
   }
 }
 
+
 const mapStateToProps = (state, ownProps) => {
   const { idPost } = ownProps.match.params;
   return {
     idPost: idPost,
-    initialValues: state.byCommentId[ownProps.commentId],
-
+    initialValues: ownProps.mode === 'edit' ? state.byCommentId[state.IsEditing.id] : "",
   }
 };
-
 
 export default withRouter(
   connect(
@@ -89,10 +82,14 @@ export default withRouter(
     actions
   )(reduxForm({
       form: 'commentForm',
-      validate,
+      // validate,
       onSubmit,
-      enableReinitialize: true,
     })(CommentForm)
   )
-)
+);
 
+// export default withRouter(connect(
+//   mapStateToProps, actions
+// )(CommentForm));
+
+//

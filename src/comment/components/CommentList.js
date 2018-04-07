@@ -5,10 +5,8 @@ import * as actions from '../../actions/index';
 import { getComments } from "../../reducers/index";
 import {CommentItem} from "./CommentItem";
 import {doDeleteComment} from "../../actions/comments";
-import CommentForm from "../../utils/form/CommentForm";
 import {generateId, unixTimestamp} from "../../utils/form/formTools";
-
-
+import CreateCommentForm from "../../utils/form/CreateCommentForm";
 
 class CommentList extends Component {
 
@@ -18,32 +16,15 @@ class CommentList extends Component {
 
   }
 
-  //Form submit method
-  // handleSubmit = (values) => {
-  //   const { doAddComment, doEditComment, idPost  } = this.props;
-  //   const objectData = {
-  //     id: values.id || generateId(),
-  //     timestamp: values.timestamp || unixTimestamp(),
-  //     parentId: idPost,
-  //     author: values.author,
-  //     body: values.body,
-  //   };
-  //
-  //   return (
-  //     !values.id
-  //       ? doAddComment(objectData)
-  //       : doEditComment(objectData)
-  //   )
-  // };
 
     render() {
-        const { comments, doVoteComment, doDeleteComment } = this.props;
+        const { comments, doVoteComment, doDeleteComment,idPost } = this.props;
 
         return (
             <div>
               <div>
-                <h3>Create Comment!</h3>
-                <CommentForm />
+                <CreateCommentForm
+                />
               </div>
                 { comments &&
                     (
@@ -64,11 +45,8 @@ class CommentList extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const { idPost } = ownProps.match.params;
-
+const mapStateToProps = (state) => {
     return {
-        idPost: idPost,
         comments: getComments(state).sort((a,b) => a.timestamp < b.timestamp)
     }
 }
