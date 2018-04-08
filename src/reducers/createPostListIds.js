@@ -36,7 +36,7 @@ const createPostListIds = (filterName) => {
     const handleRemove = (state, action) => {
         const { result: removedId, entities } = action.response;
         const { category } = entities.posts[removedId];
-        return filterName !== category
+        return filterName === category || 'all'
             ? state.filter(id => id !== removedId)
             : state
     }

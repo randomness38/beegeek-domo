@@ -4,11 +4,21 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router';
 import * as actions from '../../actions'
 import CommentForm from "./CommentForm";
-import { validate } from './validate';
-import commentSubmit from "./commentSubmit";
-import RemoteCommentSubmit from "./RemoteCommentSubmit";
 
+function validate(values){
+  const errors = {}
+  const fields = ['author','body']
 
+  fields.map( field => {
+    if(!values[field]) {
+      errors[field]=`Enter a ${field} `
+    }
+
+    return field
+  })
+
+  return errors
+}
 
 
 const EditCommentForm = ({...props}) => {
@@ -17,8 +27,8 @@ const EditCommentForm = ({...props}) => {
       <CommentForm
         mode='edit'
         {...props}
+
       />
-      <RemoteCommentSubmit mode='edit' />
     </div>
   )
 };
@@ -37,8 +47,9 @@ export default withRouter(
     null,
   )(reduxForm({
       form: 'editCommentForm',
+      //asyncValidate error on blur *bug
+      asyncBlurFields: [],
       validate,
-      onSubmit: commentSubmit
     })(EditCommentForm)
   )
 );

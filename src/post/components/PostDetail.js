@@ -9,7 +9,7 @@ import {dateTimeFormat, fromNow} from "../../utils/setDate/imdex";
 class PostDetail extends Component {
     componentDidMount() {
         const { doGetPost, doFetchComments, idPost } = this.props;
-        doGetPost(idPost).then((post)=> console.log(post));
+        doGetPost(idPost);
         // 여기서 에러남 comments 를 못받아먹음
         doFetchComments(idPost);
     }

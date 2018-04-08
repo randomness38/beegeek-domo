@@ -2,7 +2,6 @@ import React ,{ Component } from 'react'
 import {connect} from "react-redux";
 import {withRouter} from 'react-router';
 import { Field, reduxForm } from 'redux-form'
-// import { doGetPost, doFetchCategories } from '../../actions'
 import {
   doGetPost,
   doFetchCategories,
@@ -13,7 +12,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import { validate } from './validate';
 import {renderTextField, renderSelectField } from "./TextInputField";
-import {generateId, unixTimestamp} from "./formTools";
 
 
 const style = {
@@ -28,8 +26,6 @@ class PostForm extends Component {
     const {doGetPost, doFetchCategories,reset, idPost} = this.props;
     doFetchCategories();
     idPost ? doGetPost(idPost) : reset()
-
-    // form clear 어떻게 하냐?
   }
 
 
@@ -97,11 +93,6 @@ const mapStateToProps = (state, ownProps) => {
       initialValues: state.byPostId[idPost],
     }
 };
-
-// const mapDispatchToProps = dispatch => ({
-//   getPostById: postId => dispatch(doGetPost(postId)),
-//   getCategories: () => dispatch(doFetchCategories()),
-// });
 
 export default withRouter(
   connect(

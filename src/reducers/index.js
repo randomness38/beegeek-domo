@@ -45,7 +45,7 @@ const reducers = {
     commentIds,
     IsEditing,
     form: formReducer.plugin({
-      commentForm: (state, action) => {
+      createCommentForm: (state, action) => {
         switch(action.type) {
           case types.ADD_COMMENT:
             return undefined;

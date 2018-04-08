@@ -70,8 +70,12 @@ export const doEditPost = (id, post) => (dispatch) => {
 
 export const doDeletePost = (id) => (dispatch) => {
     return api.deletePost(id)
-        .then(post => dispatch({
-            type: types.DELETE_POST,
-            response : normalize(post, schema.post),
-        }))
+      .then(post => {
+        console.log('normalized response', normalize(post, schema.post));
+        // console.log('test');
+        dispatch({
+          type: types.DELETE_POST,
+          response : normalize(post, schema.post),
+        })
+      })
 }

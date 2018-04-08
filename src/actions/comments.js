@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { normalize } from 'normalizr'
 import * as schema from './schema'
 import * as types from './actionTypes'

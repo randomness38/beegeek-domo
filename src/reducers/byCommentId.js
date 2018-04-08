@@ -1,5 +1,3 @@
-import * as comments from '../actions/comments'
-
 const byCommentId = (state = {}, action) => {
     if (action.response) {
         return {

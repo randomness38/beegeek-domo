@@ -4,43 +4,53 @@ import {withRouter} from 'react-router';
 import { Field, reduxForm } from 'redux-form'
 import * as actions from '../../actions'
 import RaisedButton from 'material-ui/RaisedButton';
-import { validate } from './validate';
 import {renderTextField } from "./TextInputField";
 import {generateId, unixTimestamp} from "./formTools";
-import commentSubmit from "./commentSubmit";
 
 const style = {
   margin: 12,
 };
+function validate(values){
+  const errors = {}
+  const fields = ['author','body']
 
-// export const onSubmit = (values, dispatch, props) => {
-//   const { match: { params: { idPost } } } = props;
-//   console.log('idPost',idPost);
-//   const objectData = {
-//     id: values.id || generateId(),
-//     timestamp: values.timestamp || unixTimestamp(),
-//     parentId: idPost,
-//     author: values.author,
-//     body: values.body,
-//   };
-//
-//   return (
-//     !values.id
-//       ? dispatch(actions.doAddComment(objectData))
-//       : dispatch(actions.doEditComment(values.id, objectData))
-//         .then(()=> dispatch(actions.doCloseEditing(values.id)))
-//   )
-// };
+  fields.map( field => {
+    if(!values[field]) {
+      errors[field]=`Enter a ${field} `
+    }
+
+    return field
+  })
+
+  return errors
+}
 
 
 class CommentForm extends Component {
 
+  onSubmit = (values) => {
+    const { idPost, doAddComment, doEditComment, doCloseEditing  } = this.props;
+    const objectData = {
+      id: values.id || generateId(),
+      timestamp: values.timestamp || unixTimestamp(),
+      parentId: idPost,
+      author: values.author,
+      body: values.body,
+    };
+
+    return (
+      !values.id
+        ? doAddComment(objectData)
+        : doEditComment(values.id, objectData).then(()=> doCloseEditing(values.id))
+    )
+
+  };
   render() {
     const { handleSubmit, submitting, mode, pristine, reset } = this.props;
 
     return (
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <h3>{mode === 'edit' ? 'Edit Comment' : 'Create Comment'}</h3>
         <div>
           <Field
@@ -58,42 +68,29 @@ class CommentForm extends Component {
             rows={2}
           />
         </div>
-        {/*<div>*/}
-          {/*<RaisedButton primary={true} type="submit" label="Submit" disabled={pristine || submitting} style={style} />*/}
-          {/*<RaisedButton label="Reset"  disabled={pristine || submitting} onClick={reset} style={style} />*/}
-        {/*</div>*/}
+        <div>
+          <RaisedButton primary={true} type="submit" label="Submit" disabled={pristine || submitting} style={style} />
+          <RaisedButton label="Reset"  disabled={pristine || submitting} onClick={reset} style={style} />
+        </div>
       </form>
     );
   }
 }
 
-export default reduxForm({
-  form: 'commentForm',
-  onSubmit: commentSubmit
-})(CommentForm)
+const mapStateToProps = (state, ownProps) => {
+  const { idPost } = ownProps.match.params;
+  return {
+    idPost: idPost,
+  }
+};
 
-// const mapStateToProps = (state, ownProps) => {
-//   const { idPost } = ownProps.match.params;
-//   return {
-//     idPost: idPost,
-//     initialValues: ownProps.mode === 'edit' ? state.byCommentId[state.IsEditing.id] : "",
-//   }
-// };
-//
-// export default withRouter(
-//   connect(
-//     mapStateToProps,
-//     actions
-//   )(reduxForm({
-//       form: 'commentForm',
-//       // validate,
-//       onSubmit,
-//     })(CommentForm)
-//   )
-// );
-
-// export default withRouter(connect(
-//   mapStateToProps, actions
-// )(CommentForm));
-
-//
+export default withRouter(
+  connect(
+    mapStateToProps,
+    actions
+  )(reduxForm({
+      form: 'commentForm',
+      validate,
+    })(CommentForm)
+  )
+);

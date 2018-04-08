@@ -10,7 +10,7 @@ export class CommentItem extends Component {
 
 
   render () {
-    const {comment, onRemove, idPost, onVote, doOpenEditing, open, editedId} = this.props;
+    const {comment, onRemove, onVote, doOpenEditing, open, editedId} = this.props;
 
     return (
         <div>

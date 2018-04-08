@@ -1,10 +1,21 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import CommentForm from "./CommentForm";
-import { validate } from './validate';
-import commentSubmit from "./commentSubmit";
-import RemoteCommentSubmit from "./RemoteCommentSubmit";
 
+function validate(values){
+  const errors = {}
+  const fields = ['author','body']
+
+  fields.map( field => {
+    if(!values[field]) {
+      errors[field]=`Enter a ${field} `
+    }
+
+    return field
+  })
+
+  return errors
+}
 
 const CreateCommentForm = ({...props}) => {
   return (
@@ -13,15 +24,14 @@ const CreateCommentForm = ({...props}) => {
         mode='create'
         {...props}
       />
-      <RemoteCommentSubmit mode='create' />
     </div>
 
 
   )
-}
+};
 
 export default reduxForm({
   form: 'createCommentForm',
+  asyncBlurFields: [],
   validate,
-  onSubmit: commentSubmit
 })(CreateCommentForm);
