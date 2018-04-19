@@ -21,11 +21,11 @@ const routes = [
   },
   {
     path: '/:category/:idPost',
-    component: ControlPostForm
+    component: DetailPostScene
   },
   {
     path: '/edit/post/:idPost',
-    component: DetailPostScene
+    component: ControlPostForm
   },
   {
     component: NotFound
